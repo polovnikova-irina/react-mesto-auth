@@ -1,0 +1,11 @@
+.photos {
+  max-width: calc(100% - 19px * 2);
+  margin: 36px auto;
+}
+
+@media screen and (min-width: 1024px) {
+  .photos {
+    padding: 0 15%;
+    margin-top: 48px;
+}
+}

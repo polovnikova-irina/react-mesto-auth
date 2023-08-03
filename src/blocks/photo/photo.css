@@ -1,0 +1,25 @@
+.photo {
+  list-style: none;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px 10px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 1024px) {
+  .photo {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 582px;
+}
+}
+
+@media screen and (min-width: 1280px) {
+  .photo {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 17px;
+    max-width: 880px;
+}
+}

@@ -1,0 +1,12 @@
+.popup__close-button_type_zoom-image {
+  position: absolute;
+  top: -17px;
+  right: 10px;
+}
+
+@media screen and (min-width: 1024px) {
+  .popup__close-button_type_zoom-image {
+    top: -28px;
+    right: 0;
+}
+}

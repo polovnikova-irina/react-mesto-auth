@@ -1,0 +1,19 @@
+.photo__like {
+  all: unset;
+  background-image: url(../../../images/photo-like-white.svg);
+  width: 22px;
+  height: 19px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: opacity 0.1 linear;
+  justify-self: flex-end;
+  margin: 0;
+  cursor: pointer;
+}
+
+.photo__like:hover {
+  opacity: 0.5;
+}
+
+
+

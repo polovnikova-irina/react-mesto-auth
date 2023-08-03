@@ -1,0 +1,8 @@
+.photo__caption {
+  max-width: 246px;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 17px 20px 0px 21px;
+}

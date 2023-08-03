@@ -1,0 +1,7 @@
+@media screen and (min-width: 1150px) {
+  .profile__info-wrapper {
+    min-width: 336px;
+    padding: 0;
+    margin: 0 0 0 30px;
+  }
+}

@@ -1,0 +1,7 @@
+.popup__container_type_card {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+}
+
+

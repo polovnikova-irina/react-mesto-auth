@@ -1,0 +1,19 @@
+.profile {
+  max-width: calc(100% - 19px * 2);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+
+@media screen and (min-width: 1150px) {
+  .profile {
+    max-width: calc(100% - 200px * 2);
+    flex-direction: row;
+    margin-top: 43px;
+}
+}
+
+

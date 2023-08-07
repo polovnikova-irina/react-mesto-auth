@@ -1,45 +1,76 @@
-// import React, { useEffect, useContext, useState } from "react";
-import { PopupWithForm } from "./PopupWithForm";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+// import * as auth from '../auth.js';
 
-export function Register() {
+
+const Register = () => {
+
+  const[formValue, setFormValue]= useState({
+    email: '',
+    passwod: ''
+  })
+
+  // const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+  
+    setFormValue({
+    ...formValue,
+    [name]: value
+  })
+}
+
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+// onRegister(email, passwod) - ПРОПС
+//   if (formValue.password === formValue.confirmPassword){
+//     auth.register(formValue.username, formValue.password, formValue.email).then((res) => {
+//       navigate('/login', {replace: true});
+//       }
+//     );
+//   }
+// }
+
 
   return (
-    <PopupWithForm
-    //   isOpen={isOpen}
-    //   onClose={onClose}
-    //   onSubmit={handleSubmit}
-    //   isLoading={isLoading}
-      name="registre"
-      title="Регистрация"
-      buttonName="Зарегистрироваться"
-    //   isLoadingText="Сохранить..."
-    >
-      <label className="popup__form-element">
+    <div className="register">
+      <h2 className="auth__title">Регистрация</h2>
+      <form className="auth__form" 
+      // onSubmit={handleSubmit}
+      >
+      <label className="auth__form-input">
         <input
           id="email-input"
           type="email"
-          className="popup__item popup__item_el_title"
+          className="auth_item auth__item_el_title"
           name="email"
           placeholder="Email"
           required={true}
-        //   value={name}
-        //   onChange={handleNameChange}
+          value={formValue.email}
+          onChange={handleChange}
         />
-        <span className="email-input-error popup__input-error" />
       </label>
-      <label className="popup__form-element">
+      <label className="auth__form-input">
         <input
           id="password"
           type="password"
-          className="popup__item popup__item_el_subtitle"
+          className="auth__item auth__item_el_subtitle"
           name="password"
           placeholder="Пароль"
           required={true}
-        //   value={description}
-        //   onChange={handleAboutChange}
+          value={formValue.passwod}
+          onChange={handleChange}
         />
-        <span className="password-input-error popup__input-error" />
       </label>
-    </PopupWithForm>
-  );
+      <button className="auth__submit-btn" type="submit">Зарегистрироваться</button>
+      </form>
+      <div className='auth__singup'>
+      <p className='auth__singup_text'>Уже зарегистрированы?</p>
+      <Link to='/sign-in' className='auth__singup-link'>Войти</Link>
+      </div>
+      </div>
+  ); 
 }
+
+export default Register;

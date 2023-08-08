@@ -2,11 +2,11 @@ import React, { useState } from "react";
 // import * as auth from '../auth.js';
 
 
-const Login = () => {
+export const Login = () => {
 
   const[formValue, setFormValue]= useState({
     email: '',
-    passwod: ''
+    password: ''
   })
 
   // const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Login = () => {
 
   return (
     <div className="register">
-      <h2 className="auth__title">Регистрация</h2>
+      <h2 className="auth__title">Вход</h2>
       <form className="auth__form" 
       // onSubmit={handleSubmit}
       >
@@ -52,14 +52,14 @@ const Login = () => {
           name="password"
           placeholder="Пароль"
           required={true}
-          value={formValue.passwod}
+          value={formValue.password}
           onChange={handleChange}
         />
       </label>
-      <button className="auth__submit-btn" type="submit">Зарегистрироваться</button>
+      <button className="auth__submit-btn" type="submit">Войти</button>
       </form>
       </div>
   ); 
 }
 
-export default Login;
+

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
 import { Header } from "./Header";
-import { Main } from "./Main";
 import { Footer } from "./Footer";
 import { ImagePopup } from "./ImagePopup";
 import { EditProfilePopup } from "./EditProfilePopup";
@@ -12,6 +11,9 @@ import { AddPlacePopup } from "./AddPlacePopup";
 import { ConfirmPopup } from './ConfirmPopup'
 import { Register } from './Register'
 import { Login } from './Login'
+import { ProtectedRouteElement } from "./ProtectedRoute";
+import * as auth from '../utils/auth';
+import { PageNotFound} from "./PageNotFound";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -25,11 +27,13 @@ function App() {
   const [currentUser, setСurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-  // const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  // const handleLogin = () => {
-  //   setLoggedIn(true);
-  // }
+  const navigate = useNavigate(); 
+
+   const handleLogin = () => {
+     setLoggedIn(true);
+   }
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -160,28 +164,66 @@ function App() {
     setIsDeletePopupCard(false)
   };
 
+  const handleRegister = (email, passwod) => {
+    auth
+    .register(email, passwod)
+    .then((res) => {
+      navigate('/sign-in', {replace: true});
+    })
+    .catch(err => {
+      if (err.status === 400) {
+        console.log('400 - некорректно заполнено одно из полей');
+      }
+      console.error(err);
+    })
+  }; 
+
+  const handleLogin = (email, passwod) => {
+    auth
+    .authorize(email, passwod)
+    .then((res) => {
+      navigate('/sign-in', {replace: true});
+    })
+    .catch(err => {
+      if (err.status === 400) {
+        console.log('400 - не передано одно из полей');
+      } else if (err.status === 401) {
+        console.log('401 - пользователь с email не найден');
+      }
+      console.error(err);
+  }) 
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        {loggedIn && <Main />}
         <Routes>
-          <Route path="/" element={loggedIn ? <Navigate to="/main" replace /> : <Navigate to="/sign-in" replace />} />
-          <Route path="/sign-up" element={<Register />} />
-          <Route path="/sign-in" element={<Login />} />
+          <Route exact path="/" element={<ProtectedRouteElement 
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardDelete={handleTrashIconClick}
+                    onCardLike={handleCardLike}
+                    cards={cards}
+                    />} />
+          <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
+          <Route path="/sign-in" element={<Login onLogin={handleLogin}/>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
 
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardDelete={handleTrashIconClick}
-          onCardLike={handleCardLike}
-          cards={cards}
-        />
+        {/* // <Main
+        //   onEditProfile={handleEditProfileClick}
+        //   onAddPlace={handleAddPlaceClick}
+        //   onEditAvatar={handleEditAvatarClick}
+        //   onCardClick={handleCardClick}
+        //   onCardDelete={handleTrashIconClick}
+        //   onCardLike={handleCardLike}
+        //   cards={cards}
+        // /> */}
+         {loggedIn && <Footer />}
 
-        <Footer />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}

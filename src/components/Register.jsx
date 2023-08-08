@@ -3,14 +3,12 @@ import { Link } from "react-router-dom";
 // import * as auth from '../auth.js';
 
 
-const Register = () => {
+export const Register = ({onRegister}) => {
 
   const[formValue, setFormValue]= useState({
     email: '',
-    passwod: ''
+    password: ''
   })
-
-  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -21,23 +19,17 @@ const Register = () => {
   })
 }
 
-// const handleSubmit = (e) => {
-//   e.preventDefault();
-// onRegister(email, passwod) - ПРОПС
-//   if (formValue.password === formValue.confirmPassword){
-//     auth.register(formValue.username, formValue.password, formValue.email).then((res) => {
-//       navigate('/login', {replace: true});
-//       }
-//     );
-//   }
-// }
+const handleSubmit = (e) => {
+  e.preventDefault();
+  onRegister(formValue.email, formValue.password);
+}
 
 
   return (
     <div className="register">
       <h2 className="auth__title">Регистрация</h2>
       <form className="auth__form" 
-      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       >
       <label className="auth__form-input">
         <input
@@ -59,7 +51,7 @@ const Register = () => {
           name="password"
           placeholder="Пароль"
           required={true}
-          value={formValue.passwod}
+          value={formValue.password}
           onChange={handleChange}
         />
       </label>
@@ -73,4 +65,3 @@ const Register = () => {
   ); 
 }
 
-export default Register;

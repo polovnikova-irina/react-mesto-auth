@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-// import * as auth from '../auth.js';
 
-
-export const Login = () => {
+export const Login = ({onLogin}) => {
 
   const[formValue, setFormValue]= useState({
     email: '',
     password: ''
   })
-
-  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -20,17 +16,17 @@ export const Login = () => {
   })
 }
 
-// const handleSubmit = (e) => {
-//   e.preventDefault();
-
-// }
+const handleSubmit = (e) => {
+   e.preventDefault();
+   onLogin(formValue.email, formValue.password)
+ }
 
 
   return (
     <div className="register">
       <h2 className="auth__title">Вход</h2>
       <form className="auth__form" 
-      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       >
       <label className="auth__form-input">
         <input

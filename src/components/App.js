@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate} from 'react-router-dom';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
 import { Header } from "./Header";
+import { Main } from "./Main";
 import { Footer } from "./Footer";
 import { ImagePopup } from "./ImagePopup";
 import { EditProfilePopup } from "./EditProfilePopup";
@@ -11,9 +12,9 @@ import { AddPlacePopup } from "./AddPlacePopup";
 import { ConfirmPopup } from './ConfirmPopup'
 import { Register } from './Register'
 import { Login } from './Login'
-import { ProtectedRouteElement } from "./ProtectedRoute";
+import { ProtectedRouteElement } from './ProtectedRoute';
 import * as auth from '../utils/auth';
-import { PageNotFound} from "./PageNotFound";
+// import { PageNotFound} from "./PageNotFound";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -29,11 +30,28 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const navigate = useNavigate(); 
+  const [email, setEmail] = useState("");
 
-   const handleLogin = () => {
-     setLoggedIn(true);
-   }
+  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isDeletePopupCard || isImagePopup
+  
+    const navigate = useNavigate(); 
+
+useEffect(() => {
+  function closeByEscapeAndOverlayClick(evt) {
+    if(evt.key === 'Escape' || (evt.target.classList.contains('popup_opened'))) {
+      closeAllPopups();
+    }
+  }
+  if(isOpen) {
+    document.addEventListener('keydown', closeByEscapeAndOverlayClick);
+    document.addEventListener('click', closeByEscapeAndOverlayClick);
+    return () => {
+      document.removeEventListener('keydown', closeByEscapeAndOverlayClick);
+      document.removeEventListener('click', closeByEscapeAndOverlayClick);
+    }
+  }
+}, [isOpen]);
+
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -164,7 +182,31 @@ function App() {
     setIsDeletePopupCard(false)
   };
 
-  const handleRegister = (email, passwod) => {
+ 
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+    auth
+    .checkToken(jwt)
+    .then((res) => {
+      setEmail(res.data.email);
+        setLoggedIn(true)
+        navigate("/", {replace: true})
+    })
+    .catch(err => {
+      if (err.status === 400) {
+        console.log('400 - Токен не передан или передан не в том формате');
+      } else if (err.status === 401) {
+        console.log('401 - Переданный токен некорректен');
+      }
+      console.log(err);
+    });
+    }
+}, [])
+
+
+  const handleRegisterSubmit = (email, passwod) => {
     auth
     .register(email, passwod)
     .then((res) => {
@@ -174,55 +216,57 @@ function App() {
       if (err.status === 400) {
         console.log('400 - некорректно заполнено одно из полей');
       }
-      console.error(err);
+      console.log(err);
     })
   }; 
 
-  const handleLogin = (email, passwod) => {
+  const handleLoginSubmit = (email, password) => {
     auth
-    .authorize(email, passwod)
-    .then((res) => {
-      navigate('/sign-in', {replace: true});
-    })
-    .catch(err => {
-      if (err.status === 400) {
-        console.log('400 - не передано одно из полей');
-      } else if (err.status === 401) {
-        console.log('401 - пользователь с email не найден');
-      }
-      console.error(err);
-  }) 
+      .authorize(email, password)
+      .then((data) => {
+        setLoggedIn(true);
+        console.log('Logged in:', true)
+        navigate('/', {replace: true});
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          console.log('400 - не передано одно из полей');
+        } else if (err.status === 401) {
+          console.log('401 - пользователь с email не найден');
+        }
+        console.log(err);
+      });
   };
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header  userData={email} />
         <Routes>
-          <Route exact path="/" element={<ProtectedRouteElement 
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={handleCardClick}
-                    onCardDelete={handleTrashIconClick}
-                    onCardLike={handleCardLike}
-                    cards={cards}
-                    />} />
-          <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
-          <Route path="/sign-in" element={<Login onLogin={handleLogin}/>} />
-          <Route path="*" element={<PageNotFound />} />
+        <Route
+  exact
+  path="/"
+  element={
+    <ProtectedRouteElement
+      element={Main}
+      loggedIn={loggedIn}
+      onEditProfile={handleEditProfileClick}
+      onAddPlace={handleAddPlaceClick}
+      onEditAvatar={handleEditAvatarClick}
+      onCardClick={handleCardClick}
+      onCardDelete={handleTrashIconClick}
+      onCardLike={handleCardLike}
+      cards={cards}
+    />
+  }
+/>
+          <Route path="/sign-up" element={<Register onRegister={handleRegisterSubmit} />} />
+          <Route path="/sign-in" element={<Login onLogin={handleLoginSubmit}/>} />
+          {/* <Route path="*" element={<PageNotFound />} /> */}
         </Routes>
 
-        {/* // <Main
-        //   onEditProfile={handleEditProfileClick}
-        //   onAddPlace={handleAddPlaceClick}
-        //   onEditAvatar={handleEditAvatarClick}
-        //   onCardClick={handleCardClick}
-        //   onCardDelete={handleTrashIconClick}
-        //   onCardLike={handleCardLike}
-        //   cards={cards}
-        // /> */}
-         {loggedIn && <Footer />}
+        {loggedIn && <Footer />}
 
 
         <EditAvatarPopup

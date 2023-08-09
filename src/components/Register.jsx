@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import * as auth from '../auth.js';
-
 
 export const Register = ({onRegister}) => {
 

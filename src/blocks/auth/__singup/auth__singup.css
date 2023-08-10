@@ -1,0 +1,21 @@
+    .auth__singup  {
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        min-width: 260px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #FFFFFF;
+        margin-top: 20px;
+      }
+      
+      @media screen and (min-width: 1024px) {
+        .auth__singup {
+          min-width: 358px;
+          line-height: 29px;
+          margin-top: 15px;
+      }
+      }
+        

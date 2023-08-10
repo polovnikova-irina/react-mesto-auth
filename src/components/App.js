@@ -10,20 +10,23 @@ import { EditProfilePopup } from "./EditProfilePopup";
 import { EditAvatarPopup } from "./EditAvatarPopup";
 import { AddPlacePopup } from "./AddPlacePopup";
 import { ConfirmPopup } from './ConfirmPopup'
+import { InfoTooltip } from './InfoTooltip'
 import { Register } from './Register'
 import { Login } from './Login'
 import { ProtectedRouteElement } from './ProtectedRoute';
 import * as auth from '../utils/auth';
-// import { PageNotFound} from "./PageNotFound";
+import { PageNotFound} from "./PageNotFound";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isDeletePopupCard, setIsDeletePopupCard] = useState(false)
+  const [isInfoTooltipPopupOpen,  setIsInfoTooltipPopupOpen] = useState(false)
   const [selectedCard, setSelectedCard] = useState({});
   const [isImagePopup, setIsImagePopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const [currentUser, setСurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -32,7 +35,7 @@ function App() {
 
   const [email, setEmail] = useState("");
 
-  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isDeletePopupCard || isImagePopup
+  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isDeletePopupCard || isImagePopup || isInfoTooltipPopupOpen
   
     const navigate = useNavigate(); 
 
@@ -179,7 +182,8 @@ useEffect(() => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopup(false);
-    setIsDeletePopupCard(false)
+    setIsDeletePopupCard(false);
+    setIsInfoTooltipPopupOpen(false);
   };
 
  
@@ -210,12 +214,16 @@ useEffect(() => {
     auth
     .register(email, passwod)
     .then((res) => {
+      setIsSuccess(true);
+      setIsInfoTooltipPopupOpen(true);
       navigate('/sign-in', {replace: true});
     })
     .catch(err => {
       if (err.status === 400) {
         console.log('400 - некорректно заполнено одно из полей');
       }
+      setIsSuccess(false);
+      setIsInfoTooltipPopupOpen(true);
       console.log(err);
     })
   }; 
@@ -249,8 +257,8 @@ useEffect(() => {
   path="/"
   element={
     <ProtectedRouteElement
-      element={Main}
-      loggedIn={loggedIn}
+      element={
+    <Main
       onEditProfile={handleEditProfileClick}
       onAddPlace={handleAddPlaceClick}
       onEditAvatar={handleEditAvatarClick}
@@ -258,12 +266,15 @@ useEffect(() => {
       onCardDelete={handleTrashIconClick}
       onCardLike={handleCardLike}
       cards={cards}
+      />
+    } 
+    loggedIn={loggedIn}
     />
   }
 />
           <Route path="/sign-up" element={<Register onRegister={handleRegisterSubmit} />} />
           <Route path="/sign-in" element={<Login onLogin={handleLoginSubmit}/>} />
-          {/* <Route path="*" element={<PageNotFound />} /> */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
 
         {loggedIn && <Footer />}
@@ -303,7 +314,14 @@ useEffect(() => {
           isOpen={isImagePopup}
           onClose={closeAllPopups}
         />
-      </div>
+  
+
+      <InfoTooltip
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          isSuccess={isSuccess}
+        />
+</div>
     </CurrentUserContext.Provider>
   );
 }

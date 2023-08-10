@@ -1,0 +1,11 @@
+.auth__singup_link {
+    transition: opacity 0.3s linear;
+    color: #FFFFFF;
+    border: none;
+    text-decoration: none;
+    margin-left: 3px;
+  }
+  
+  .auth__singup_link:hover {
+    opacity: 0.6;
+  }

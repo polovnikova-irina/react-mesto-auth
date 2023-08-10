@@ -23,7 +23,7 @@ const handleSubmit = (e) => {
 
 
   return (
-    <div className="register">
+    <div className="auth">
       <h2 className="auth__title">Вход</h2>
       <form className="auth__form" 
       onSubmit={handleSubmit}
@@ -32,7 +32,7 @@ const handleSubmit = (e) => {
         <input
           id="email-input"
           type="email"
-          className="auth_item auth__item_el_title"
+          className="auth__item auth__item_el_email"
           name="email"
           placeholder="Email"
           required={true}
@@ -44,7 +44,7 @@ const handleSubmit = (e) => {
         <input
           id="password"
           type="password"
-          className="auth__item auth__item_el_subtitle"
+          className="auth__item auth__item_el_password"
           name="password"
           placeholder="Пароль"
           required={true}

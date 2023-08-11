@@ -24,7 +24,6 @@ export function Header({ userEmail, loggedIn, onSignOut }) {
             }
           />
           <Route
-            exact
             path="/"
             element={
               loggedIn ? (

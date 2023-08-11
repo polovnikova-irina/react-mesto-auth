@@ -15,10 +15,5 @@ header::after {
   .header {
     width: calc(100% - 400px);
     margin: 40px auto;
+  }
 }
-}
-
-
-
-
-

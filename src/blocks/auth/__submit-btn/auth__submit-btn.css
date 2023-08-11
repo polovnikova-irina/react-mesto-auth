@@ -1,29 +1,28 @@
 .auth__submit-btn {
-        width: 260px;
-        height: 46px;
-        color: #000000;
-        background-color: #FFFFFF;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 22px;
-        text-align: center;
-        cursor: pointer;
-        transition: opacity 0.3s linear;
-        margin: 216px 0 0;
-        padding: 0;
-        border: none;
-        border-radius: 2px;
-      }
-      
-      .auth__submit-btn:hover {
-        opacity: 0.85;
-      }
-      
-      @media screen and (min-width: 1024px) {
-        .auth__submit-btn {
-          width: 358px;
-          height: 50px;
-      }
-      }
-      
+  width: 260px;
+  height: 46px;
+  color: #000000;
+  background-color: #ffffff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.3s linear;
+  margin: 216px 0 0;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+}
+
+.auth__submit-btn:hover {
+  opacity: 0.85;
+}
+
+@media screen and (min-width: 1024px) {
+  .auth__submit-btn {
+    width: 358px;
+    height: 50px;
+  }
+}

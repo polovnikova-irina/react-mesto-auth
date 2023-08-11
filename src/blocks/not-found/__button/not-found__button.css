@@ -1,0 +1,12 @@
+.not-found__button {
+  all: unset;
+  color: #fff;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+  align-self: center;
+  padding: 15px 0 0;
+}
+
+.not-found__button:hover {
+  opacity: 0.6;
+}

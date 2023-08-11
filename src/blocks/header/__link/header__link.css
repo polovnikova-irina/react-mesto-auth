@@ -1,0 +1,10 @@
+.header__link {
+  all: unset;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+  align-self: center;
+}
+
+.header__link:hover {
+  opacity: 0.6;
+}

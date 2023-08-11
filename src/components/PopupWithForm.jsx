@@ -22,7 +22,7 @@ export function PopupWithForm(props) {
         >
           {props.children}
           <button className="popup__save-button" type="submit">
-          {props.isLoading ? props.isLoadingText : props.buttonName}
+            {props.isLoading ? props.isLoadingText : props.buttonName}
           </button>
         </form>
       </div>

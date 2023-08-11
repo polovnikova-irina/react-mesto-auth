@@ -1,28 +1,27 @@
 .auth__item {
-    box-sizing: border-box;
-    width: 260px;
-    height: 27px;
+  box-sizing: border-box;
+  width: 260px;
+  height: 27px;
+  row-gap: 30px;
+  background: #000;
+  color: #cccccc;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  border-style: none;
+  border-bottom: 2px solid #cccccc;
+  margin-top: 30px;
+}
+
+.auth__item:focus {
+  outline: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .auth__item {
+    width: 358px;
     row-gap: 30px;
-    background: #000;
-    color:#CCCCCC;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    border-style: none;
-    border-bottom: 2px solid #CCCCCC;
-    margin-top: 30px;
+    margin-left: 13px;
   }
-   
-  .auth__item:focus { 
-    outline: 0; 
-  } 
-  
-  @media screen and (min-width: 1024px) { 
-    .auth__item { 
-      width: 358px; 
-      row-gap: 30px; 
-      margin-left: 13px; 
-  } 
-  
-  } 
+}

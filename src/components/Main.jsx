@@ -46,12 +46,12 @@ export function Main(props) {
         <ul className="photo">
           {props.cards.map((item) => (
             <li key={item._id}>
-            <Card
-              card={item}
-              onCardClick={props.onCardClick}
-              onCardDelete={props.onCardDelete}
-              onCardLike={props.onCardLike}
-            />
+              <Card
+                card={item}
+                onCardClick={props.onCardClick}
+                onCardDelete={props.onCardDelete}
+                onCardLike={props.onCardLike}
+              />
             </li>
           ))}
         </ul>

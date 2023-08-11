@@ -87,20 +87,17 @@ function App() {
   };
 
   useEffect(() => {
+    if(loggedIn) {
     Promise.all([api.getInfo(), api.getCards()])
       .then(([dataUser, dataCards]) => {
-        setСurrentUser({
-          name: dataUser.name,
-          about: dataUser.about,
-          avatar: dataUser.avatar,
-          _id: dataUser._id,
-        });
+        setСurrentUser(dataUser);
         setCards(dataCards);
       })
       .catch((err) =>
         console.log("Ошибка при загрузке данных о пользователе:", err)
       );
-  }, []);
+    }
+  }, [loggedIn]);
 
   const handleUpdateUser = (userData) => {
     setIsLoading(true);
@@ -222,7 +219,6 @@ function App() {
       .register(email, passwod)
       .then((res) => {
         setIsSuccess(true);
-        setIsInfoTooltipPopupOpen(true);
         navigate("/sign-in", { replace: true });
       })
       .catch((err) => {
@@ -230,15 +226,16 @@ function App() {
           console.log("400 - некорректно заполнено одно из полей");
         }
         setIsSuccess(false);
-        setIsInfoTooltipPopupOpen(true);
         console.log(err);
-      });
+      })
+      .finally(() =>  setIsInfoTooltipPopupOpen(true));
   };
 
   const handleLoginSubmit = (email, password) => {
     auth
       .authorize(email, password)
       .then((data) => {
+        localStorage.setItem('jwt', data.token);
         setLoggedIn(true);
         setEmail(email);
         navigate("/", { replace: true });
@@ -252,6 +249,8 @@ function App() {
         console.log(err);
       });
   };
+
+
 
   const handleSignOut = () => {
     localStorage.removeItem("jwt");

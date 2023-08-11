@@ -24,9 +24,11 @@ export const authorize = (email, password) => {
   })
     .then(checkResponce)
     .then((data) => {
-      if (data.jwt) {
-        localStorage.setItem("jwt", data.jwt);
+      if (data.token) {
+        localStorage.setItem("jwt", data.token);
         return data;
+      } else {
+        throw new Error("Token not found in response");
       }
     });
 };

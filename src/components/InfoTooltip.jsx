@@ -1,5 +1,5 @@
-import SuccessIcon from "../images/infoTooltip-successIcon.svg";
-import FailIcon from "../images/infoTooltip-failIcon.svg";
+import successIcon from "../images/infoTooltip-successIcon.svg";
+import failIcon from "../images/infoTooltip-failIcon.svg";
 
 export function InfoTooltip({ isOpen, onClose, isSuccess }) {
   return (
@@ -9,7 +9,7 @@ export function InfoTooltip({ isOpen, onClose, isSuccess }) {
           <>
             <img
               className="popup__tooltip-image"
-              src={SuccessIcon}
+              src={successIcon}
               alt="Регистрация прошла успешно!"
             />
             <p className="popup__tooltip-text">
@@ -20,7 +20,7 @@ export function InfoTooltip({ isOpen, onClose, isSuccess }) {
           <>
             <img
               className="popup__tooltip-image"
-              src={FailIcon}
+              src={failIcon}
               alt="Регистрация не была выполнена!"
             />
             <p className="popup__tooltip-text">
